@@ -1,5 +1,7 @@
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
@@ -35,6 +37,22 @@ public class Main {
                 aWordsFrequencyList.add (new WordsFrequency(FileWord,1));
             }     
         }
+
+        ArrayList<String> list = new ArrayList<>();
+        
+        Collections.sort(list);
+
+        Collections.sort(aWordsFrequencyList, new Comparator<WordsFrequency>() 
+        {
+            public int compare(WordsFrequency o1, WordsFrequency o2)
+            {
+                if (o1.getWord().equals(o2.getWord())){
+                    return 0;
+                }
+
+                return o1.getWord().compareTo(o2.getWord());
+            }
+        });
 
         for(WordsFrequency aWFL: aWordsFrequencyList)
         {
