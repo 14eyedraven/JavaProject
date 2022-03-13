@@ -1,4 +1,5 @@
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,60 +8,60 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        // Create Input Stream and Scanner..
-        FileInputStream fin = new FileInputStream("test.txt");
-        Scanner input = new Scanner(fin);
+        /* Create Input Stream and Scanner if that possible..*/
+        try(FileInputStream fin = new FileInputStream("test.txt");
+            Scanner input = new Scanner(fin)) {
 
-        // Create ArrayList..
-        ArrayList<WordsFrequency> aWordsFrequencyList = new ArrayList<>();
+            /* Create ArrayList..*/
+            ArrayList<WordsFrequency> aWordsFrequencyList = new ArrayList<>();
 
-        while(input.hasNext())
-        {
-            String FileWord = input.next();
-            int flag = 0;
-  
-            for (int i = 0; i < aWordsFrequencyList.size(); i++)
+            while(input.hasNext())
             {
-                WordsFrequency aWFL = aWordsFrequencyList.get(i);
- 
-                String ALword = aWFL.getWord();
-                int ALfrequency = aWFL.getFrequency();
-  
-                if (ALword.equals(FileWord))
+                String FileWord = input.next();
+                int flag = 0;
+    
+                for (int i = 0; i < aWordsFrequencyList.size(); i++)
                 {
-                    aWordsFrequencyList.set(i, new WordsFrequency(FileWord,ALfrequency+1));
-                    flag = 1;
+                    WordsFrequency aWFL = aWordsFrequencyList.get(i);
+    
+                    String ALword = aWFL.getWord();
+                    int ALfrequency = aWFL.getFrequency();
+                    
+                    /* If the word already exists in our ArrayList we just update the frequency of that letter/string..*/
+                    if (ALword.equals(FileWord))
+                    {
+                        aWordsFrequencyList.set(i, new WordsFrequency(FileWord,ALfrequency+1));
+                        flag = 1;
+                    }
                 }
+                
+                /* If the word doesn't exists in our ArrayList we "insert" it..*/
+                if (flag == 0){
+                    aWordsFrequencyList.add (new WordsFrequency(FileWord,1));
+                }     
             }
-            
-            if (flag == 0){
-                aWordsFrequencyList.add (new WordsFrequency(FileWord,1));
-            }     
-        }
 
-        ArrayList<String> list = new ArrayList<>();
-        
-        Collections.sort(list);
-
-        Collections.sort(aWordsFrequencyList, new Comparator<WordsFrequency>() 
-        {
-            public int compare(WordsFrequency o1, WordsFrequency o2)
+            Collections.sort(aWordsFrequencyList, new Comparator<WordsFrequency>() 
             {
-                if (o1.getWord().equals(o2.getWord())){
-                    return 0;
+                /* Descending Sort..*/
+                public int compare(WordsFrequency o1, WordsFrequency o2)
+                {
+                    /* comparetTo: returns an integer that defines either a string is "equal" to another string..*/
+                    return o1.getWord().compareTo(o2.getWord());
                 }
+            });
 
-                return o1.getWord().compareTo(o2.getWord());
+            for(WordsFrequency aWFL: aWordsFrequencyList)
+            {
+                System.out.println(aWFL);
             }
-        });
 
-        for(WordsFrequency aWFL: aWordsFrequencyList)
-        {
-            System.out.println(aWFL);
+            fin.close();
+            input.close();
         }
-
-        fin.close();
-        input.close();
+        catch(IOException e) {
+            System.err.println(e);
+        }
     }
 }
 
