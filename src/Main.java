@@ -19,7 +19,38 @@ public class Main {
 
 
 class WordsFrequency {
+    
+    private String word;
+    private int frequency;
 
+    // First Constructor..
+    public WordsFrequency()
+    {
+        this.word = null;;
+        this.frequency = 0;
+    }
+
+    // Second Constructor
+    public WordsFrequency(String word, int frequency)
+    {
+        this.word = word;
+        this.frequency = frequency;
+    }
+
+    public int getFrequency(int index)
+    {
+        return this.frequency;
+    }
+
+    public String getWord(String word)
+    {
+        return this.word;
+    }
+
+    @Override
+    public String toString(){
+        return "" + word + ": " + frequency + "]";
+    }
 }
 
 
