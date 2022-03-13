@@ -12,8 +12,37 @@ public class Main {
         // Create ArrayList..
         ArrayList<WordsFrequency> aWordsFrequencyList = new ArrayList<>();
 
-        // Create variable of that class..
-        WordsFrequency WF = new WordsFrequency();
+        while(input.hasNext())
+        {
+            String FileWord = input.next();
+            int flag = 0;
+  
+            for (int i = 0; i < aWordsFrequencyList.size(); i++)
+            {
+                WordsFrequency aWFL = aWordsFrequencyList.get(i);
+ 
+                String ALword = aWFL.getWord();
+                int ALfrequency = aWFL.getFrequency();
+  
+                if (ALword.equals(FileWord))
+                {
+                    aWordsFrequencyList.set(i, new WordsFrequency(FileWord,ALfrequency+1));
+                    flag = 1;
+                }
+            }
+            
+            if (flag == 0){
+                aWordsFrequencyList.add (new WordsFrequency(FileWord,1));
+            }     
+        }
+
+        for(WordsFrequency aWFL: aWordsFrequencyList)
+        {
+            System.out.println(aWFL);
+        }
+
+        fin.close();
+        input.close();
     }
 }
 
@@ -37,19 +66,19 @@ class WordsFrequency {
         this.frequency = frequency;
     }
 
-    public int getFrequency(int index)
+    public int getFrequency()
     {
         return this.frequency;
     }
 
-    public String getWord(String word)
+    public String getWord()
     {
         return this.word;
     }
 
     @Override
     public String toString(){
-        return "" + word + ": " + frequency + "]";
+        return "" + word + ": " + frequency + "";
     }
 }
 
